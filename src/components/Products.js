@@ -18,9 +18,7 @@ export default class Products extends Component {
     );
   }
 }
-Products.defaultProps = {
-  productsInfos: [],
-};
+
 Products.propTypes = {
   productsInfos: PropTypes.array,
 }.isRequired;

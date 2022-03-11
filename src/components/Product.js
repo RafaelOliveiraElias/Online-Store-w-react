@@ -8,7 +8,9 @@ export default class Product extends Component {
   }
 
   render() {
+    const { productInfo } = this.props;
     const { productInfo: { title, thumbnail, price } } = this.props;
+    const { addProducts } = this.props;
     return (
       <div data-testid="product">
         <div
@@ -23,6 +25,13 @@ export default class Product extends Component {
           <p>{ price }</p>
           <img src={ thumbnail } alt={ title } />
         </div>
+        <button
+          type="button"
+          data-testid="product-add-to-cart"
+          onClick={ () => { addProducts(productInfo); } }
+        >
+          Adicione ao Carrinho
+        </button>
       </div>
     );
   }

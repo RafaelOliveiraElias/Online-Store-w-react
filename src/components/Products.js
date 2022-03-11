@@ -4,14 +4,19 @@ import Product from './Product';
 
 export default class Products extends Component {
   render() {
-    const { productsInfos } = this.props;
+    const { productsInfos, addProducts } = this.props;
     return (
       <div>
         {
           !productsInfos.length > 0
             ? <p>Nenhum produto foi encontrado</p>
             : productsInfos.map((element) => (
-              <Product { ...this.props } productInfo={ element } key={ element.id } />
+              <Product
+                { ...this.props }
+                productInfo={ element }
+                key={ element.id }
+                addProducts={ addProducts }
+              />
             ))
         }
       </div>

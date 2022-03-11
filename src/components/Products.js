@@ -11,7 +11,7 @@ export default class Products extends Component {
           !productsInfos.length > 0
             ? <p>Nenhum produto foi encontrado</p>
             : productsInfos.map((element) => (
-              <Product productInfo={ element } key={ element.id } />
+              <Product { ...this.props } productInfo={ element } key={ element.id } />
             ))
         }
       </div>

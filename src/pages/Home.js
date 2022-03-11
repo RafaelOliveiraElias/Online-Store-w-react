@@ -75,7 +75,7 @@ export default class Home extends Component {
           categorySelect={ this.categorySelect }
           searchCategory={ searchCategory }
         />
-        <Products productsInfos={ productsInfos } />
+        <Products { ...this.props } productsInfos={ productsInfos } />
       </>
     );
   }

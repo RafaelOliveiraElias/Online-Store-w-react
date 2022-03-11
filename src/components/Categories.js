@@ -21,7 +21,6 @@ export default class Categories extends Component {
     const { categorySelect, searchCategory } = this.props;
     return (
       <div>
-        a
         {
           categories.map((element) => (
 

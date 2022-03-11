@@ -37,7 +37,7 @@ export default class Details extends React.Component {
           <p>{data.price}</p>
           <img src={ data.thumbnail } alt={ data.title } />
           <div>
-            <p>Especificações do Produto</p>
+            <p>Especificações do  Produto</p>
             {data.attributes.map((attribute) => (
               <div key={ attribute.id }>
                 <p>{attribute.name}</p>

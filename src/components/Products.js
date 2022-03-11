@@ -12,10 +12,10 @@ export default class Products extends Component {
             ? <p>Nenhum produto foi encontrado</p>
             : productsInfos.map((element) => (
               <Product
-                { ...this.props }
                 productInfo={ element }
                 key={ element.id }
                 addProducts={ addProducts }
+                { ...this.props }
               />
             ))
         }

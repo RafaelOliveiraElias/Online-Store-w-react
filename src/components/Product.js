@@ -1,16 +1,29 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Redirect } from 'react-router-dom';
 
 export default class Product extends Component {
+  constructor() {
+    super();
+    this.state = {
+      clicked: false,
+    };
+  }
+
   cardClick = () => {
-    const { productInfo: { id }, history } = this.props;
-    history.push(`/product/${id}`);
+    this.setState({
+      clicked: true,
+    });
   }
 
   render() {
     const { productInfo } = this.props;
-    const { productInfo: { title, thumbnail, price } } = this.props;
+    const { productInfo: { title, thumbnail, price, id } } = this.props;
     const { addProducts } = this.props;
+    const { clicked } = this.state;
+    if (clicked) {
+      return <Redirect to={ `/product/${id}` } />;
+    }
     return (
       <div data-testid="product">
         <div

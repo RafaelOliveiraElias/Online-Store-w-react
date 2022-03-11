@@ -8,7 +8,7 @@ export default class Cart extends React.Component {
     console.log(products);
     if (products.length === 0) {
       return (
-        <p data-testid="shopping-cart-empty-message"> Seu Carrinho está Vazio</p>
+        <p data-testid="shopping-cart-empty-message">Seu carrinho está vazio</p>
       );
     }
     return products.map((product) => {

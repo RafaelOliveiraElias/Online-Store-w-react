@@ -11,6 +11,7 @@ export default class Home extends Component {
     this.state = ({
       searchQuery: '',
       productsInfos: [],
+      searchCategory: '',
     });
   }
 
@@ -26,8 +27,20 @@ export default class Home extends Component {
     this.setState({ productsInfos: data.results });
   }
 
+  categorySelect = async ({ target }) => {
+    const valueTarget = target.value;
+    this.setState({
+      searchCategory: valueTarget,
+    });
+
+    const { searchQuery } = this.state;
+    const search = await api.getProductsFromCategoryAndQuery(valueTarget, searchQuery);
+
+    this.setState({ productsInfos: search.results });
+  };
+
   render() {
-    const { searchQuery, productsInfos } = this.state;
+    const { searchQuery, productsInfos, searchCategory } = this.state;
     return (
       <>
         <Link to="/cart" data-testid="shopping-cart-button">
@@ -58,7 +71,10 @@ export default class Home extends Component {
           </button>
         </form>
 
-        <Categories />
+        <Categories
+          categorySelect={ this.categorySelect }
+          searchCategory={ searchCategory }
+        />
         <Products productsInfos={ productsInfos } />
       </>
     );

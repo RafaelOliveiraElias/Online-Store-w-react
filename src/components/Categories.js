@@ -19,6 +19,7 @@ export default class Categories extends Component {
     const { categories } = this.state;
     return (
       <div>
+        a
         {
           categories.map((element) => (
 

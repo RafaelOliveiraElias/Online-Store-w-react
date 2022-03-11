@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import * as api from '../services/api';
+
+import cartIcon from '../icons/outline_shopping_cart_black_18dp.png';
 
 export default class Details extends React.Component {
   constructor() {
@@ -26,6 +29,7 @@ export default class Details extends React.Component {
 
     render() {
       const { loading, data } = this.state;
+      const { addProducts } = this.props;
       if (loading) {
         return (
           <h2>loading...</h2>
@@ -33,11 +37,24 @@ export default class Details extends React.Component {
       }
       return (
         <div>
+          <Link to="/cart" data-testid="shopping-cart-button">
+            <img
+              src={ cartIcon }
+              alt="Icone do carrinho de compras"
+            />
+          </Link>
           <h2 data-testid="product-detail-name">{data.title}</h2>
           <p>{data.price}</p>
           <img src={ data.thumbnail } alt={ data.title } />
+          <button
+            type="button"
+            data-testid="product-detail-add-to-cart"
+            onClick={ () => { addProducts(data); } }
+          >
+            Adicione ao Carrinho
+          </button>
           <div>
-            <p>Especificações do  Produto</p>
+            <p>Especificações do Produto</p>
             {data.attributes.map((attribute) => (
               <div key={ attribute.id }>
                 <p>{attribute.name}</p>
@@ -56,4 +73,5 @@ Details.propTypes = {
       id: PropTypes.string,
     }),
   }),
+  addProducts: PropTypes.func.isRequired,
 }.isRequired;

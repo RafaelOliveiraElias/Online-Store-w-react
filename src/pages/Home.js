@@ -1,10 +1,10 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import Categories from '../components/Categories';
 import Products from '../components/Products';
-import * as api from '../services/api';
 import cartIcon from '../icons/outline_shopping_cart_black_18dp.png';
+import * as api from '../services/api';
 
 export default class Home extends Component {
   constructor() {
@@ -82,7 +82,6 @@ export default class Home extends Component {
           productsInfos={ productsInfos }
           addProducts={ addProducts }
         />
-
       </>
     );
   }

@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 
 export default class Product extends Component {
@@ -34,8 +34,8 @@ export default class Product extends Component {
           role="link"
           tabIndex={ 0 }
         >
-          <h4>{ title }</h4>
-          <p>{ price }</p>
+          <h4>{title}</h4>
+          <p>{price}</p>
           <img src={ thumbnail } alt={ title } />
         </div>
         <button

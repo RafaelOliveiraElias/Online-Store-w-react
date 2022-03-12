@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import * as api from '../services/api';
 
 import cartIcon from '../icons/outline_shopping_cart_black_18dp.png';
+import Rates from '../components/Rates';
 
 export default class Details extends React.Component {
   constructor() {
@@ -62,6 +63,7 @@ export default class Details extends React.Component {
               </div>
             ))}
           </div>
+          <Rates />
         </div>
       );
     }

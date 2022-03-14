@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 import './App.css';
+import Header from './components/Header';
 import Cart from './pages/Cart';
 import Details from './pages/Details';
 import Checkout from './pages/Checkout';
@@ -12,6 +13,21 @@ class App extends React.Component {
     this.state = {
       cartItems: { items: [], cartTotalPrice: 0, cartTotalItems: 0 },
     };
+  }
+
+  componentDidMount() {
+    this.setState({ cartItems: this.getCartInLocalStorage() });
+  }
+
+  getCartInLocalStorage = () => {
+    const cartItems = JSON.parse(localStorage.getItem('cartItems'));
+    if (cartItems) return cartItems;
+    return { items: [], cartTotalPrice: 0, cartTotalItems: 0 };
+  }
+
+  saveCartInLocalStorage = () => {
+    const { cartItems } = this.state;
+    localStorage.setItem('cartItems', JSON.stringify(cartItems));
   }
 
   sum = (numA, numB, digits) => {
@@ -31,7 +47,10 @@ class App extends React.Component {
       if (product.id === cartItem.product.id) return true;
       return false;
     });
-    if (itemInTheCart) return;
+    if (itemInTheCart) {
+      this.increaseProductQuantity(product);
+      return;
+    }
     const { price } = product;
     this.setState({
       cartItems: {
@@ -39,7 +58,7 @@ class App extends React.Component {
         cartTotalPrice: this.sum(cartTotalPrice, price, 2),
         cartTotalItems: cartTotalItems + 1,
       },
-    });
+    }, this.saveCartInLocalStorage);
   }
 
   removeProduct = (product) => {
@@ -60,7 +79,7 @@ class App extends React.Component {
         cartTotalPrice: this.subtract(cartTotalPrice, productTotalPrice, 2),
         cartTotalItems: cartTotalItems - total,
       },
-    });
+    }, this.saveCartInLocalStorage);
   }
 
   increaseProductQuantity = (product) => {
@@ -82,7 +101,7 @@ class App extends React.Component {
         cartTotalPrice,
         cartTotalItems,
       },
-    });
+    }, this.saveCartInLocalStorage);
   }
 
   decreaseProductQuantity = (product) => {
@@ -105,11 +124,17 @@ class App extends React.Component {
         cartTotalPrice,
         cartTotalItems,
       },
-    });
+    }, this.saveCartInLocalStorage);
   }
 
   clearCart = () => {
-    this.setState({ cartItems: { items: [], cartTotalPrice: 0, cartTotalItems: 0 } });
+    this.setState({
+      cartItems: {
+        items: [],
+        cartTotalPrice: 0,
+        cartTotalItems: 0,
+      },
+    }, this.saveCartInLocalStorage);
   }
 
   render() {
@@ -117,8 +142,9 @@ class App extends React.Component {
     return (
       <div>
         <BrowserRouter>
+          <Header cartItems={ cartItems } />
           <Route exact path="/">
-            <Home addProduct={ this.addProduct } />
+            <Home addProduct={ this.addProduct } cartItems={ cartItems } />
           </Route>
           <Route exact path="/cart">
             <Cart
@@ -135,6 +161,7 @@ class App extends React.Component {
             render={ (props) => (<Details
               { ...props }
               addProduct={ this.addProduct }
+              cartItems={ cartItems }
             />) }
           />
           <Route exact path="/checkout">

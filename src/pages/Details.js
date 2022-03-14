@@ -1,8 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Link } from 'react-router-dom';
 import Rates from '../components/Rates';
-import cartIcon from '../icons/outline_shopping_cart_black_18dp.png';
 import * as api from '../services/api';
 
 export default class Details extends React.Component {
@@ -37,12 +35,6 @@ export default class Details extends React.Component {
     }
     return (
       <div>
-        <Link to="/cart" data-testid="shopping-cart-button">
-          <img
-            src={ cartIcon }
-            alt="Icone do carrinho de compras"
-          />
-        </Link>
         <h2 data-testid="product-detail-name">{data.title}</h2>
         <p>{data.price}</p>
         <img src={ data.thumbnail } alt={ data.title } />

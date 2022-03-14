@@ -31,7 +31,7 @@ class CartItem extends Component {
     );
   };
 
-  renderIncreaseButton = (item) => {
+  renderIncreaseButton = (item, total) => {
     const { increaseProductQuantity } = this.props;
     return (
       <button
@@ -40,6 +40,7 @@ class CartItem extends Component {
         onClick={ () => {
           increaseProductQuantity(item);
         } }
+        disabled={ total >= item.available_quantity }
       >
         +
       </button>
@@ -61,7 +62,7 @@ class CartItem extends Component {
         <span data-testid="shopping-cart-product-quantity">
           {total}
         </span>
-        {this.renderIncreaseButton(item)}
+        {this.renderIncreaseButton(item, total)}
         <span>
           {`R$ ${productTotalPrice}`}
         </span>

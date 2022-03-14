@@ -3,6 +3,7 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import './App.css';
 import Cart from './pages/Cart';
 import Details from './pages/Details';
+import Checkout from './pages/Checkout';
 import Home from './pages/Home';
 
 class App extends React.Component {
@@ -112,7 +113,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { cartItems } = this.state;
+    const { cartItems, cartTotalPrice } = this.state;
     return (
       <div>
         <BrowserRouter>
@@ -136,6 +137,15 @@ class App extends React.Component {
               addProduct={ this.addProduct }
             />) }
           />
+          <Route exact path="/checkout">
+            <Checkout
+              cartItems={ cartItems }
+              cartTotalPrice={ cartTotalPrice }
+              removeProduct={ this.removeProduct }
+              increaseProductQuantity={ this.increaseProductQuantity }
+              decreaseProductQuantity={ this.decreaseProductQuantity }
+            />
+          </Route>
         </BrowserRouter>
       </div>
     );

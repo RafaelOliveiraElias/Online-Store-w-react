@@ -1,8 +1,23 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 import CartItem from '../components/CartItem';
 
 export default class Cart extends React.Component {
+  constructor() {
+    super();
+
+    this.state = {
+      clicked: false,
+    };
+  }
+
+  handleClickButton = () => {
+    this.setState({
+      clicked: true,
+    });
+  }
+
   render() {
     const {
       cartItems,
@@ -13,6 +28,7 @@ export default class Cart extends React.Component {
     } = this.props;
 
     const { items, cartTotalPrice } = cartItems;
+    const { clicked } = this.state;
 
     if (items.length === 0) {
       return (
@@ -49,10 +65,13 @@ export default class Cart extends React.Component {
         </button>
         <button
           type="button"
+          data-testid="checkout-products"
+          onClick={ this.handleClickButton }
         >
           Finalizar a compra
         </button>
         <p>{`R$ ${cartTotalPrice}`}</p>
+        {clicked ? <Redirect to="/checkout" /> : null}
       </main>
     );
   }

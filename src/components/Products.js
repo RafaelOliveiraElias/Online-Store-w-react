@@ -4,7 +4,7 @@ import Product from './Product';
 
 export default class Products extends Component {
   render() {
-    const { productsInfos, addProducts } = this.props;
+    const { productsInfos, addProduct } = this.props;
     return (
       <div>
         {
@@ -14,7 +14,7 @@ export default class Products extends Component {
               <Product
                 productInfo={ element }
                 key={ element.id }
-                addProducts={ addProducts }
+                addProduct={ addProduct }
                 { ...this.props }
               />
             ))
@@ -25,5 +25,6 @@ export default class Products extends Component {
 }
 
 Products.propTypes = {
-  productsInfos: PropTypes.array,
-}.isRequired;
+  productsInfos: PropTypes.arrayOf(PropTypes.object).isRequired,
+  addProduct: PropTypes.func.isRequired,
+};

@@ -2,39 +2,70 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
 class CartItem extends Component {
-  render() {
-    const { product, addProducts, removeProducts } = this.props;
-    const { product: item, total } = product;
-    const { title } = item;
+  renderRemoveButton = (item) => {
+    const { removeProduct } = this.props;
     return (
-      <>
-        <p data-testid="shopping-cart-product-name">
+      <button
+        type="button"
+        onClick={ () => {
+          removeProduct(item);
+        } }
+      >
+        X
+      </button>
+    );
+  };
+
+  renderDecreaseButton = (item) => {
+    const { decreaseProductQuantity } = this.props;
+    return (
+      <button
+        data-testid="product-decrease-quantity"
+        type="button"
+        onClick={ () => {
+          decreaseProductQuantity(item);
+        } }
+      >
+        -
+      </button>
+    );
+  };
+
+  renderIncreaseButton = (item) => {
+    const { increaseProductQuantity } = this.props;
+    return (
+      <button
+        data-testid="product-increase-quantity"
+        type="button"
+        onClick={ () => {
+          increaseProductQuantity(item);
+        } }
+      >
+        +
+      </button>
+    );
+  };
+
+  render() {
+    const { product } = this.props;
+    const { product: item, total, productTotalPrice } = product;
+    const { title, thumbnail } = item;
+    return (
+      <li>
+        {this.renderRemoveButton(item)}
+        <img src={ thumbnail } alt={ title } />
+        <span data-testid="shopping-cart-product-name">
           {title}
-        </p>
-        <div>
-          <button
-            data-testid="product-decrease-quantity"
-            type="button"
-            onClick={ () => {
-              removeProducts(item);
-            } }
-          >
-            -
-          </button>
-          <p data-testid="shopping-cart-product-quantity">
-            {total}
-          </p>
-          <button
-            data-testid="product-increase-quantity"
-            type="button"
-            onClick={ () => {
-              addProducts(item);
-            } }
-          >
-            +
-          </button>
-        </div>
-      </>
+        </span>
+        {this.renderDecreaseButton(item)}
+        <span data-testid="shopping-cart-product-quantity">
+          {total}
+        </span>
+        {this.renderIncreaseButton(item)}
+        <span>
+          {`R$ ${productTotalPrice}`}
+        </span>
+      </li>
     );
   }
 }
@@ -43,11 +74,14 @@ CartItem.propTypes = {
   product: PropTypes.shape({
     product: PropTypes.shape({
       title: PropTypes.string.isRequired,
+      thumbnail: PropTypes.string.isRequired,
     }).isRequired,
     total: PropTypes.number.isRequired,
+    productTotalPrice: PropTypes.number.isRequired,
   }).isRequired,
-  addProducts: PropTypes.func.isRequired,
-  removeProducts: PropTypes.func.isRequired,
+  removeProduct: PropTypes.func.isRequired,
+  increaseProductQuantity: PropTypes.func.isRequired,
+  decreaseProductQuantity: PropTypes.func.isRequired,
 };
 
 export default CartItem;

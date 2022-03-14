@@ -18,7 +18,7 @@ export default class Product extends Component {
 
   render() {
     const { productInfo, addProduct } = this.props;
-    const { title, thumbnail, price, id } = productInfo;
+    const { title, thumbnail, price, id, shipping } = productInfo;
     const { clicked } = this.state;
     if (clicked) {
       return <Redirect to={ `/product/${id}` } />;
@@ -37,6 +37,8 @@ export default class Product extends Component {
           <p>{price}</p>
           <img src={ thumbnail } alt={ title } />
         </div>
+        { Object.values(shipping)[0]
+          ? <h4 data-testid="free-shipping">Frete grátis</h4> : null }
         <button
           type="button"
           data-testid="product-add-to-cart"

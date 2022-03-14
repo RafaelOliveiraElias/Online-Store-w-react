@@ -3,8 +3,8 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import './App.css';
 import Header from './components/Header';
 import Cart from './pages/Cart';
-import Details from './pages/Details';
 import Checkout from './pages/Checkout';
+import Details from './pages/Details';
 import Home from './pages/Home';
 
 class App extends React.Component {
@@ -90,6 +90,7 @@ class App extends React.Component {
       if (product.id === cartItem.product.id) return true;
       return false;
     });
+    if (item.total >= product.available_quantity) return;
     const { price } = product;
     item.total += 1;
     item.productTotalPrice = this.sum(item.productTotalPrice, price, 2);

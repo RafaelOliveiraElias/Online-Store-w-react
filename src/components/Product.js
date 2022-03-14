@@ -17,9 +17,8 @@ export default class Product extends Component {
   }
 
   render() {
-    const { productInfo } = this.props;
-    const { productInfo: { title, thumbnail, price, id } } = this.props;
-    const { addProducts } = this.props;
+    const { productInfo, addProduct } = this.props;
+    const { title, thumbnail, price, id } = productInfo;
     const { clicked } = this.state;
     if (clicked) {
       return <Redirect to={ `/product/${id}` } />;
@@ -41,7 +40,7 @@ export default class Product extends Component {
         <button
           type="button"
           data-testid="product-add-to-cart"
-          onClick={ () => { addProducts(productInfo); } }
+          onClick={ () => { addProduct(productInfo); } }
         >
           Adicione ao Carrinho
         </button>
@@ -51,7 +50,6 @@ export default class Product extends Component {
 }
 
 Product.propTypes = {
-  title: PropTypes.string,
-  thumbnail: PropTypes.string,
-  price: PropTypes.number,
-}.isRequired;
+  productInfo: PropTypes.instanceOf(Object).isRequired,
+  addProduct: PropTypes.func.isRequired,
+};

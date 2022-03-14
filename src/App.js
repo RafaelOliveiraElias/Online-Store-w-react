@@ -9,49 +9,106 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      cartItems: [],
+      cartItems: { items: [], cartTotalPrice: 0, cartTotalItems: 0 },
     };
   }
 
-  addProducts = (product) => {
-    const { cartItems } = this.state;
-    const cartItem = cartItems.find((item) => {
-      if (product.id === item.product.id) return true;
-      return false;
-    });
-    if (cartItem) {
-      cartItem.total += 1;
-      this.setState({ cartItems });
-    } else {
-      (
-        this.setState({ cartItems: [...cartItems, { product, total: 1 }] })
-      );
-    }
+  sum = (numA, numB, digits) => {
+    const total = (numA + numB).toFixed(digits);
+    return Number(total);
   }
 
-  removeProducts = (product) => {
+  subtract = (numA, numB, digits) => {
+    const difference = (numA - numB).toFixed(digits);
+    return Number(difference);
+  }
+
+  addProduct = (product) => {
     const { cartItems } = this.state;
-    const cartItem = cartItems.find((item) => {
-      if (product.id === item.product.id) return true;
+    const { items, cartTotalPrice, cartTotalItems } = cartItems;
+    const itemInTheCart = items.some((cartItem) => {
+      if (product.id === cartItem.product.id) return true;
       return false;
     });
-    if (cartItem) {
-      const newCartItem = cartItems.filter((item) => {
-        if (cartItem.product.id !== item.product.id) return true;
-        return false;
-      });
-      const { total } = cartItem;
-      if (total - 1 === 0) {
-        this.setState({ cartItems: newCartItem });
-      } else {
-        cartItem.total -= 1;
-        this.setState({ cartItems });
-      }
-    }
+    if (itemInTheCart) return;
+    const { price } = product;
+    this.setState({
+      cartItems: {
+        items: [...items, { product, total: 1, productTotalPrice: price }],
+        cartTotalPrice: this.sum(cartTotalPrice, price, 2),
+        cartTotalItems: cartTotalItems + 1,
+      },
+    });
+  }
+
+  removeProduct = (product) => {
+    const { cartItems } = this.state;
+    const { cartTotalPrice, cartTotalItems } = cartItems;
+    let { items } = cartItems;
+    let productTotalPrice;
+    let total;
+    items = items.filter((item) => {
+      if (product.id !== item.product.id) return true;
+      productTotalPrice = item.productTotalPrice;
+      total = item.total;
+      return false;
+    });
+    this.setState({
+      cartItems: {
+        items,
+        cartTotalPrice: this.subtract(cartTotalPrice, productTotalPrice, 2),
+        cartTotalItems: cartTotalItems - total,
+      },
+    });
+  }
+
+  increaseProductQuantity = (product) => {
+    const { cartItems } = this.state;
+    let { cartTotalPrice, cartTotalItems } = cartItems;
+    const { items } = cartItems;
+    const item = items.find((cartItem) => {
+      if (product.id === cartItem.product.id) return true;
+      return false;
+    });
+    const { price } = product;
+    item.total += 1;
+    item.productTotalPrice = this.sum(item.productTotalPrice, price, 2);
+    cartTotalItems += 1;
+    cartTotalPrice = this.sum(cartTotalPrice, price, 2);
+    this.setState({
+      cartItems: {
+        items,
+        cartTotalPrice,
+        cartTotalItems,
+      },
+    });
+  }
+
+  decreaseProductQuantity = (product) => {
+    const { cartItems } = this.state;
+    let { cartTotalPrice, cartTotalItems } = cartItems;
+    const { items } = cartItems;
+    const item = items.find((cartItem) => {
+      if (product.id === cartItem.product.id) return true;
+      return false;
+    });
+    if ((item.total - 1) === 0) return;
+    const { price } = product;
+    item.total -= 1;
+    item.productTotalPrice = this.subtract(item.productTotalPrice, price, 2);
+    cartTotalItems -= 1;
+    cartTotalPrice = this.subtract(cartTotalPrice, price, 2);
+    this.setState({
+      cartItems: {
+        items,
+        cartTotalPrice,
+        cartTotalItems,
+      },
+    });
   }
 
   clearCart = () => {
-    this.setState({ cartItems: [] });
+    this.setState({ cartItems: { items: [], cartTotalPrice: 0, cartTotalItems: 0 } });
   }
 
   render() {
@@ -60,13 +117,14 @@ class App extends React.Component {
       <div>
         <BrowserRouter>
           <Route exact path="/">
-            <Home addProducts={ this.addProducts } />
+            <Home addProduct={ this.addProduct } />
           </Route>
           <Route exact path="/cart">
             <Cart
-              products={ cartItems }
-              addProducts={ this.addProducts }
-              removeProducts={ this.removeProducts }
+              cartItems={ cartItems }
+              removeProduct={ this.removeProduct }
+              increaseProductQuantity={ this.increaseProductQuantity }
+              decreaseProductQuantity={ this.decreaseProductQuantity }
               clearCart={ this.clearCart }
             />
           </Route>
@@ -75,7 +133,7 @@ class App extends React.Component {
             path="/product/:id"
             render={ (props) => (<Details
               { ...props }
-              addProducts={ this.addProducts }
+              addProduct={ this.addProduct }
             />) }
           />
         </BrowserRouter>

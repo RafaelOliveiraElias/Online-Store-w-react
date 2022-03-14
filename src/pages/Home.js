@@ -42,7 +42,7 @@ export default class Home extends Component {
 
   render() {
     const { searchQuery, productsInfos, searchCategory } = this.state;
-    const { addProducts } = this.props;
+    const { addProduct } = this.props;
     return (
       <>
         <Link to="/cart" data-testid="shopping-cart-button">
@@ -80,7 +80,7 @@ export default class Home extends Component {
         <Products
           { ...this.props }
           productsInfos={ productsInfos }
-          addProducts={ addProducts }
+          addProduct={ addProduct }
         />
       </>
     );
@@ -88,5 +88,5 @@ export default class Home extends Component {
 }
 
 Home.propTypes = {
-  addProducts: PropTypes.func.isRequired,
+  addProduct: PropTypes.func.isRequired,
 };

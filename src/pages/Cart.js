@@ -4,27 +4,41 @@ import CartItem from '../components/CartItem';
 
 export default class Cart extends React.Component {
   render() {
-    const { products, addProducts, removeProducts, clearCart } = this.props;
-    if (products.length === 0) {
+    const {
+      cartItems,
+      removeProduct,
+      increaseProductQuantity,
+      decreaseProductQuantity,
+      clearCart,
+    } = this.props;
+
+    const { items, cartTotalPrice } = cartItems;
+
+    if (items.length === 0) {
       return (
-        <p data-testid="shopping-cart-empty-message">Seu carrinho está vazio</p>
+        <main>
+          <p data-testid="shopping-cart-empty-message">Seu carrinho está vazio</p>
+        </main>
       );
     }
     return (
-      <>
-        {
-          products.map((product) => {
-            const { product: { id } } = product;
-            return (
-              <CartItem
-                product={ product }
-                key={ id }
-                addProducts={ addProducts }
-                removeProducts={ removeProducts }
-              />
-            );
-          })
-        }
+      <main>
+        <ul>
+          {
+            items.map((product) => {
+              const { product: { id } } = product;
+              return (
+                <CartItem
+                  product={ product }
+                  key={ id }
+                  removeProduct={ removeProduct }
+                  increaseProductQuantity={ increaseProductQuantity }
+                  decreaseProductQuantity={ decreaseProductQuantity }
+                />
+              );
+            })
+          }
+        </ul>
         <button
           type="button"
           onClick={ () => {
@@ -38,14 +52,19 @@ export default class Cart extends React.Component {
         >
           Finalizar a compra
         </button>
-      </>
+        <p>{`R$ ${cartTotalPrice}`}</p>
+      </main>
     );
   }
 }
 
 Cart.propTypes = {
-  products: PropTypes.arrayOf(PropTypes.object).isRequired,
-  addProducts: PropTypes.func.isRequired,
-  removeProducts: PropTypes.func.isRequired,
+  cartItems: PropTypes.shape({
+    items: PropTypes.arrayOf(PropTypes.object).isRequired,
+    cartTotalPrice: PropTypes.number.isRequired,
+  }).isRequired,
+  removeProduct: PropTypes.func.isRequired,
+  increaseProductQuantity: PropTypes.func.isRequired,
+  decreaseProductQuantity: PropTypes.func.isRequired,
   clearCart: PropTypes.func.isRequired,
 };

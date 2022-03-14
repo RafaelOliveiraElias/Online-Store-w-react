@@ -1,9 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import Categories from '../components/Categories';
 import Products from '../components/Products';
-import cartIcon from '../icons/outline_shopping_cart_black_18dp.png';
 import * as api from '../services/api';
 
 export default class Home extends Component {
@@ -45,12 +43,6 @@ export default class Home extends Component {
     const { addProduct } = this.props;
     return (
       <>
-        <Link to="/cart" data-testid="shopping-cart-button">
-          <img
-            src={ cartIcon }
-            alt="Icone do carrinho de compras"
-          />
-        </Link>
         <p data-testid="home-initial-message">
           Digite algum termo de pesquisa ou escolha uma categoria.
         </p>

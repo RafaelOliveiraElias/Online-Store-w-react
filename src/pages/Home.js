@@ -50,4 +50,13 @@ export default class Home extends Component {
 
 Home.propTypes = {
   addProduct: PropTypes.func.isRequired,
+  cartItems: PropTypes.shape({}).isRequired,
+  handleChange: PropTypes.func.isRequired,
+  handleClick: PropTypes.func.isRequired,
+  searchQuery: PropTypes.string.isRequired,
+  productsInfos: PropTypes.arrayOf(PropTypes.object).isRequired,
+  searched: PropTypes.bool.isRequired,
+  loading: PropTypes.bool.isRequired,
+  categorySelect: PropTypes.arrayOf(PropTypes.object).isRequired,
+  searchCategory: PropTypes.string.isRequired,
 };

@@ -17,7 +17,7 @@ class App extends React.Component {
       productsInfos: [],
       searchCategory: '',
       searched: false,
-      loading: false
+      loading: false,
     };
   }
 

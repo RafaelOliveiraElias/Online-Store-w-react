@@ -7,7 +7,10 @@ import SearchHeader from './SearchHeader';
 
 class Header extends React.Component {
   render() {
-    const { handleChange, handleClick, searchQuery, productsInfos, searched, categorySelect, cartItems, searchCategory } = this.props;
+    const { handleChange,
+      handleClick,
+      searchQuery,
+      productsInfos, searched, categorySelect, searchCategory, cartItems } = this.props;
     return (
       <header>
         <LogoIcon />
@@ -29,6 +32,13 @@ class Header extends React.Component {
 
 Header.propTypes = {
   cartItems: PropTypes.shape({}).isRequired,
+  handleChange: PropTypes.func.isRequired,
+  handleClick: PropTypes.func.isRequired,
+  searchQuery: PropTypes.string.isRequired,
+  productsInfos: PropTypes.arrayOf(PropTypes.object).isRequired,
+  searched: PropTypes.bool.isRequired,
+  categorySelect: PropTypes.arrayOf(PropTypes.object).isRequired,
+  searchCategory: PropTypes.string.isRequired,
 };
 
 export default Header;

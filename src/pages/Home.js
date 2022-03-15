@@ -2,56 +2,14 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import Categories from '../components/Categories';
 import Products from '../components/Products';
-import * as api from '../services/api';
 
 export default class Home extends Component {
-  constructor() {
-    super();
-    this.state = ({
-      searchQuery: '',
-      productsInfos: [],
-      searchCategory: '',
-      orderOfProducts: 'relevance',
-    });
-  }
-
-  handleChange = ({ target }) => {
-    this.setState({
-      searchQuery: target.value,
-    });
-  };
-
-  handleClick = async () => {
-    const { searchQuery } = this.state;
-    let { orderOfProducts } = this.state;
-    orderOfProducts = `&sort=${orderOfProducts}`;
-    const data = await api.getProductsFromQuery(searchQuery + orderOfProducts);
-    this.setState({ productsInfos: data.results });
-  }
-
-  handleOrderOfProducts = ({ target }) => {
-    const { value } = target;
-    this.setState({ orderOfProducts: value });
-  }
-
-  categorySelect = async ({ target }) => {
-    const valueTarget = target.value;
-    this.setState({
-      searchCategory: valueTarget,
-    });
-    let { orderOfProducts } = this.state;
-    orderOfProducts = `&sort=${orderOfProducts}`;
-
-    const { searchQuery } = this.state;
-    const search = await api
-      .getProductsFromCategoryAndQuery(valueTarget, searchQuery + orderOfProducts);
-
-    this.setState({ productsInfos: search.results });
-  };
-
   render() {
-    const { searchQuery, productsInfos, searchCategory, orderOfProducts } = this.state;
-    const { addProduct } = this.props;
+    const { searchQuery,
+      searchCategory,
+      productsInfos,
+      loading,
+      handleChange, handleClick, categorySelect, addProduct } = this.props;
     return (
       <>
         <p data-testid="home-initial-message">
@@ -60,7 +18,7 @@ export default class Home extends Component {
         <form onSubmit={ (e) => e.preventDefault() }>
           <label htmlFor="query-input">
             <input
-              onChange={ this.handleChange }
+              onChange={ handleChange }
               type="text"
               data-testid="query-input"
               id="query-input"
@@ -83,7 +41,7 @@ export default class Home extends Component {
           </label>
           <button
             type="submit"
-            onClick={ this.handleClick }
+            onClick={ handleClick }
             data-testid="query-button"
           >
             Atualizar
@@ -91,14 +49,14 @@ export default class Home extends Component {
         </form>
 
         <Categories
-          categorySelect={ this.categorySelect }
+          categorySelect={ categorySelect }
           searchCategory={ searchCategory }
         />
-        <Products
+        {loading ? (<p>Carregando...</p>) : <Products
           { ...this.props }
           productsInfos={ productsInfos }
           addProduct={ addProduct }
-        />
+        /> }
       </>
     );
   }
@@ -106,4 +64,13 @@ export default class Home extends Component {
 
 Home.propTypes = {
   addProduct: PropTypes.func.isRequired,
+  cartItems: PropTypes.shape({}).isRequired,
+  handleChange: PropTypes.func.isRequired,
+  handleClick: PropTypes.func.isRequired,
+  searchQuery: PropTypes.string.isRequired,
+  productsInfos: PropTypes.arrayOf(PropTypes.object).isRequired,
+  searched: PropTypes.bool.isRequired,
+  loading: PropTypes.bool.isRequired,
+  categorySelect: PropTypes.arrayOf(PropTypes.object).isRequired,
+  searchCategory: PropTypes.string.isRequired,
 };

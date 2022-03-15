@@ -11,6 +11,7 @@ export default class Home extends Component {
       searchQuery: '',
       productsInfos: [],
       searchCategory: '',
+      orderOfProducts: 'relevance',
     });
   }
 
@@ -22,8 +23,15 @@ export default class Home extends Component {
 
   handleClick = async () => {
     const { searchQuery } = this.state;
-    const data = await api.getProductsFromQuery(searchQuery);
+    let { orderOfProducts } = this.state;
+    orderOfProducts = `&sort=${orderOfProducts}`;
+    const data = await api.getProductsFromQuery(searchQuery + orderOfProducts);
     this.setState({ productsInfos: data.results });
+  }
+
+  handleOrderOfProducts = ({ target }) => {
+    const { value } = target;
+    this.setState({ orderOfProducts: value });
   }
 
   categorySelect = async ({ target }) => {
@@ -31,15 +39,18 @@ export default class Home extends Component {
     this.setState({
       searchCategory: valueTarget,
     });
+    let { orderOfProducts } = this.state;
+    orderOfProducts = `&sort=${orderOfProducts}`;
 
     const { searchQuery } = this.state;
-    const search = await api.getProductsFromCategoryAndQuery(valueTarget, searchQuery);
+    const search = await api
+      .getProductsFromCategoryAndQuery(valueTarget, searchQuery + orderOfProducts);
 
     this.setState({ productsInfos: search.results });
   };
 
   render() {
-    const { searchQuery, productsInfos, searchCategory } = this.state;
+    const { searchQuery, productsInfos, searchCategory, orderOfProducts } = this.state;
     const { addProduct } = this.props;
     return (
       <>
@@ -54,7 +65,21 @@ export default class Home extends Component {
               data-testid="query-input"
               id="query-input"
               value={ searchQuery }
+              placeholder="Buscar"
             />
+          </label>
+          <label htmlFor="orderOfProducts">
+            {'Ordenar por '}
+            <select
+              name="orderOfProducts"
+              value={ orderOfProducts }
+              id="orderOfProducts"
+              onChange={ this.handleOrderOfProducts }
+            >
+              <option value="relevance">Mais Relevante</option>
+              <option value="price_desc">Preço: Maior para Menor</option>
+              <option value="price_asc">Preço: Menor para Maior</option>
+            </select>
           </label>
           <button
             type="submit"

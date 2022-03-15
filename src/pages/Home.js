@@ -2,45 +2,14 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import Categories from '../components/Categories';
 import Products from '../components/Products';
-import * as api from '../services/api';
 
 export default class Home extends Component {
-  constructor() {
-    super();
-    this.state = ({
-      searchQuery: '',
-      productsInfos: [],
-      searchCategory: '',
-    });
-  }
-
-  handleChange = ({ target }) => {
-    this.setState({
-      searchQuery: target.value,
-    });
-  };
-
-  handleClick = async () => {
-    const { searchQuery } = this.state;
-    const data = await api.getProductsFromQuery(searchQuery);
-    this.setState({ productsInfos: data.results });
-  }
-
-  categorySelect = async ({ target }) => {
-    const valueTarget = target.value;
-    this.setState({
-      searchCategory: valueTarget,
-    });
-
-    const { searchQuery } = this.state;
-    const search = await api.getProductsFromCategoryAndQuery(valueTarget, searchQuery);
-
-    this.setState({ productsInfos: search.results });
-  };
-
   render() {
-    const { searchQuery, productsInfos, searchCategory } = this.state;
-    const { addProduct } = this.props;
+    const { searchQuery,
+      searchCategory,
+      productsInfos,
+      loading,
+      handleChange, handleClick, categorySelect, addProduct } = this.props;
     return (
       <>
         <p data-testid="home-initial-message">
@@ -49,7 +18,7 @@ export default class Home extends Component {
         <form onSubmit={ (e) => e.preventDefault() }>
           <label htmlFor="query-input">
             <input
-              onChange={ this.handleChange }
+              onChange={ handleChange }
               type="text"
               data-testid="query-input"
               id="query-input"
@@ -58,7 +27,7 @@ export default class Home extends Component {
           </label>
           <button
             type="submit"
-            onClick={ this.handleClick }
+            onClick={ handleClick }
             data-testid="query-button"
           >
             Atualizar
@@ -66,14 +35,14 @@ export default class Home extends Component {
         </form>
 
         <Categories
-          categorySelect={ this.categorySelect }
+          categorySelect={ categorySelect }
           searchCategory={ searchCategory }
         />
-        <Products
+        {loading ? (<p>Carregando...</p>) : <Products
           { ...this.props }
           productsInfos={ productsInfos }
           addProduct={ addProduct }
-        />
+        /> }
       </>
     );
   }

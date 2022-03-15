@@ -1,17 +1,23 @@
 import React from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { Switch, BrowserRouter, Route, withRouter } from 'react-router-dom';
 import './App.css';
 import Header from './components/Header';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
 import Details from './pages/Details';
 import Home from './pages/Home';
+import * as api from './services/api';
 
 class App extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       cartItems: { items: [], cartTotalPrice: 0, cartTotalItems: 0 },
+      searchQuery: '',
+      productsInfos: [],
+      searchCategory: '',
+      searched: false,
+      loading: false
     };
   }
 
@@ -138,46 +144,98 @@ class App extends React.Component {
     }, this.saveCartInLocalStorage);
   }
 
+  handleChange = ({ target }) => {
+    this.setState({
+      searchQuery: target.value,
+    });
+  };
+
+  handleClick = async () => {
+    const { searchQuery } = this.state;
+    const data = await api.getProductsFromQuery(searchQuery);
+    this.setState({ productsInfos: data.results, searched: true });
+  }
+
+  categorySelect = async ({ target }) => {
+    const valueTarget = target.value;
+    this.setState({
+      searchCategory: valueTarget,
+      loading: true,
+    });
+
+    const { searchQuery } = this.state;
+    const search = await api.getProductsFromCategoryAndQuery(valueTarget, searchQuery);
+
+    this.setState({ productsInfos: search.results });
+  };
+
   render() {
-    const { cartItems, cartTotalPrice } = this.state;
+    const { cartItems,
+      cartTotalPrice,
+      productsInfos, searchCategory, searchQuery, searched, loading } = this.state;
     return (
       <div>
         <BrowserRouter>
-          <Header cartItems={ cartItems } />
-          <Route exact path="/">
-            <Home addProduct={ this.addProduct } cartItems={ cartItems } />
-          </Route>
-          <Route exact path="/cart">
-            <Cart
-              cartItems={ cartItems }
-              removeProduct={ this.removeProduct }
-              increaseProductQuantity={ this.increaseProductQuantity }
-              decreaseProductQuantity={ this.decreaseProductQuantity }
-              clearCart={ this.clearCart }
-            />
-          </Route>
-          <Route
-            exact
-            path="/product/:id"
-            render={ (props) => (<Details
-              { ...props }
-              addProduct={ this.addProduct }
-              cartItems={ cartItems }
-            />) }
+          <Header
+            searched={ searched }
+            cartItems={ cartItems }
+            searchQuery={ searchQuery }
+            searchCategory={ searchCategory }
+            productsInfos={ productsInfos }
+            handleChange={ this.handleChange }
+            handleClick={ this.handleClick }
+            categorySelect={ this.categorySelect }
           />
-          <Route exact path="/checkout">
-            <Checkout
-              cartItems={ cartItems }
-              cartTotalPrice={ cartTotalPrice }
-              removeProduct={ this.removeProduct }
-              increaseProductQuantity={ this.increaseProductQuantity }
-              decreaseProductQuantity={ this.decreaseProductQuantity }
+          <Switch>
+            <Route
+              exact
+              path="/"
+              render={ (props) => (
+                <Home
+                  { ...props }
+                  addProduct={ this.addProduct }
+                  cartItems={ cartItems }
+                  searchQuery={ searchQuery }
+                  searchCategory={ searchCategory }
+                  productsInfos={ productsInfos }
+                  handleChange={ this.handleChange }
+                  handleClick={ this.handleClick }
+                  categorySelect={ this.categorySelect }
+                  loading={ loading }
+                />) }
             />
-          </Route>
+            <Route exact path="/cart">
+              <Cart
+                cartItems={ cartItems }
+                removeProduct={ this.removeProduct }
+                increaseProductQuantity={ this.increaseProductQuantity }
+                decreaseProductQuantity={ this.decreaseProductQuantity }
+                clearCart={ this.clearCart }
+              />
+            </Route>
+            <Route
+              exact
+              path="/product/:id"
+              render={ (props) => (<Details
+                { ...props }
+                addProduct={ this.addProduct }
+                cartItems={ cartItems }
+              />) }
+            />
+            <Route exact path="/checkout">
+              <Checkout
+                cartItems={ cartItems }
+                cartTotalPrice={ cartTotalPrice }
+                removeProduct={ this.removeProduct }
+                increaseProductQuantity={ this.increaseProductQuantity }
+                decreaseProductQuantity={ this.decreaseProductQuantity }
+              />
+            </Route>
+          </Switch>
         </BrowserRouter>
       </div>
     );
   }
 }
 
-export default App;
+export default withRouter(App);

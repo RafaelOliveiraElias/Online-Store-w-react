@@ -88,6 +88,11 @@ class App extends React.Component {
     }, this.saveCartInLocalStorage);
   }
 
+  getProductInTheCart = (id) => {
+    const { cartItems: { items } } = this.state;
+    return items.find(({ product }) => product.id === id);
+  }
+
   increaseProductQuantity = (product) => {
     const { cartItems } = this.state;
     let { cartTotalPrice, cartTotalItems } = cartItems;

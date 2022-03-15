@@ -23,7 +23,21 @@ export default class Home extends Component {
               data-testid="query-input"
               id="query-input"
               value={ searchQuery }
+              placeholder="Buscar"
             />
+          </label>
+          <label htmlFor="orderOfProducts">
+            {'Ordenar por '}
+            <select
+              name="orderOfProducts"
+              value={ orderOfProducts }
+              id="orderOfProducts"
+              onChange={ this.handleOrderOfProducts }
+            >
+              <option value="relevance">Mais Relevante</option>
+              <option value="price_desc">Preço: Maior para Menor</option>
+              <option value="price_asc">Preço: Menor para Maior</option>
+            </select>
           </label>
           <button
             type="submit"

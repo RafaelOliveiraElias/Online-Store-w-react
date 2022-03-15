@@ -145,7 +145,7 @@ class App extends React.Component {
         <BrowserRouter>
           <Header cartItems={ cartItems } />
           <Route exact path="/">
-            <Home addProduct={ this.addProduct } cartItems={ cartItems } />
+            <Home addProduct={ this.addProduct } />
           </Route>
           <Route exact path="/cart">
             <Cart
@@ -162,7 +162,6 @@ class App extends React.Component {
             render={ (props) => (<Details
               { ...props }
               addProduct={ this.addProduct }
-              cartItems={ cartItems }
             />) }
           />
           <Route exact path="/checkout">

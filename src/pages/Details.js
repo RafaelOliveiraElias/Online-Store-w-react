@@ -25,9 +25,41 @@ export default class Details extends React.Component {
     });
   }
 
+  renderDecreaseButton = (item) => {
+    const { decreaseProductQuantity } = this.props;
+    return (
+      <button
+        data-testid="product-decrease-quantity"
+        type="button"
+        onClick={ () => {
+          decreaseProductQuantity(item);
+        } }
+      >
+        -
+      </button>
+    );
+  };
+
+  renderIncreaseButton = (item, total) => {
+    const { increaseProductQuantity } = this.props;
+    return (
+      <button
+        data-testid="product-increase-quantity"
+        type="button"
+        onClick={ () => {
+          increaseProductQuantity(item);
+        } }
+        disabled={ total >= item.available_quantity }
+      >
+        +
+      </button>
+    );
+  };
+
   render() {
     const { loading, data } = this.state;
-    const { addProduct } = this.props;
+    const { addProduct, getProductInTheCart } = this.props;
+    const productInTheCart = getProductInTheCart(data.id);
     if (loading) {
       return (
         <h2>loading...</h2>
@@ -38,13 +70,25 @@ export default class Details extends React.Component {
         <h2 data-testid="product-detail-name">{data.title}</h2>
         <p>{data.price}</p>
         <img src={ data.thumbnail } alt={ data.title } />
-        <button
-          type="button"
-          data-testid="product-detail-add-to-cart"
-          onClick={ () => { addProduct(data); } }
-        >
-          Adicione ao Carrinho
-        </button>
+        {
+          productInTheCart
+            ? (
+              <>
+                {this.renderDecreaseButton(data)}
+                <span>{productInTheCart.total}</span>
+                {this.renderIncreaseButton(data)}
+              </>
+            )
+            : (
+              <button
+                type="button"
+                data-testid="product-detail-add-to-cart"
+                onClick={ () => { addProduct(data); } }
+              >
+                Adicione ao Carrinho
+              </button>
+            )
+        }
         <div>
           <p>Especificações do Produto</p>
           {data.attributes.map((attribute) => (
@@ -67,4 +111,7 @@ Details.propTypes = {
     }).isRequired,
   }).isRequired,
   addProduct: PropTypes.func.isRequired,
+  getProductInTheCart: PropTypes.func.isRequired,
+  increaseProductQuantity: PropTypes.func.isRequired,
+  decreaseProductQuantity: PropTypes.func.isRequired,
 };

@@ -5,7 +5,8 @@ import { Link } from 'react-router-dom';
 export default class SearchHeader extends React.Component {
   render() {
     const { handleChange,
-      handleClick, searchQuery } = this.props;
+      handleClick, orderOfProducts,
+      searchQuery, handleOrderOfProducts } = this.props;
     return (
       <div className="searchHeader">
         <input
@@ -15,6 +16,16 @@ export default class SearchHeader extends React.Component {
           className="searchQueryInput"
           value={ searchQuery }
         />
+        <select
+          name="orderOfProducts"
+          value={ orderOfProducts }
+          id="orderOfProducts"
+          onChange={ handleOrderOfProducts }
+        >
+          <option value="relevance">Mais Relevante</option>
+          <option value="price_desc">Preço: Maior para Menor</option>
+          <option value="price_asc">Preço: Menor para Maior</option>
+        </select>
         <Link to="/">
           <button
             type="button"
@@ -33,4 +44,6 @@ SearchHeader.propTypes = {
   handleChange: PropTypes.func.isRequired,
   handleClick: PropTypes.func.isRequired,
   searchQuery: PropTypes.string.isRequired,
+  handleOrderOfProducts: PropTypes.func.isRequired,
+  orderOfProducts: PropTypes.string.isRequired,
 };

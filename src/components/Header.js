@@ -9,7 +9,9 @@ class Header extends React.Component {
   render() {
     const { handleChange,
       handleClick,
+      orderOfProducts,
       searchQuery,
+      handleOrderOfProducts,
       productsInfos, searched, categorySelect, searchCategory, cartItems } = this.props;
     return (
       <header>
@@ -23,6 +25,8 @@ class Header extends React.Component {
           handleChange={ handleChange }
           handleClick={ handleClick }
           categorySelect={ categorySelect }
+          handleOrderOfProducts={ handleOrderOfProducts }
+          orderOfProducts={ orderOfProducts }
         />
         <CartIcon cartItems={ cartItems } />
       </header>
@@ -32,13 +36,15 @@ class Header extends React.Component {
 
 Header.propTypes = {
   cartItems: PropTypes.shape({}).isRequired,
-  handleChange: PropTypes.func.isRequired,
-  handleClick: PropTypes.func.isRequired,
   searchQuery: PropTypes.string.isRequired,
+  handleClick: PropTypes.func.isRequired,
   productsInfos: PropTypes.arrayOf(PropTypes.object).isRequired,
   searched: PropTypes.bool.isRequired,
+  handleOrderOfProducts: PropTypes.func.isRequired,
+  orderOfProducts: PropTypes.string.isRequired,
   categorySelect: PropTypes.func.isRequired,
   searchCategory: PropTypes.string.isRequired,
+  handleChange: PropTypes.func.isRequired,
 };
 
 export default Header;

@@ -186,6 +186,8 @@ class App extends React.Component {
             handleChange={ this.handleChange }
             handleClick={ this.handleClick }
             categorySelect={ this.categorySelect }
+            handleOrderOfProducts={ this.handleOrderOfProducts }
+            orderOfProducts={ orderOfProducts }
           />
           <Switch>
             <Route
@@ -197,10 +199,8 @@ class App extends React.Component {
                   searched={ searched }
                   addProduct={ this.addProduct }
                   cartItems={ cartItems }
-                  searchQuery={ searchQuery }
                   searchCategory={ searchCategory }
                   productsInfos={ productsInfos }
-                  handleChange={ this.handleChange }
                   handleClick={ this.handleClick }
                   categorySelect={ this.categorySelect }
                   loading={ loading }

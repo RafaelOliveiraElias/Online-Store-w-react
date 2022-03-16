@@ -14,10 +14,15 @@ export default class Category extends Component {
     const { categoryId, categoryName, categorySelect } = this.props;
     return (
       <div>
-        <label htmlFor={ categoryId } data-testid="category">
+        <label
+          className="rad-label"
+          htmlFor={ categoryId }
+          data-testid="category"
+        >
           <input
             type="radio"
             id={ categoryId }
+            className="rad-input"
             value={ categoryId }
             onChange={ categorySelect }
             name="category"
@@ -25,9 +30,12 @@ export default class Category extends Component {
               this.select()
             }
           />
-          {
-            categoryName
-          }
+          <div className="rad-design" />
+          <div className="rad-text">
+            {
+              categoryName
+            }
+          </div>
         </label>
       </div>
     );

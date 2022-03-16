@@ -20,7 +20,8 @@ export default class Categories extends Component {
     const { categories } = this.state;
     const { categorySelect, searchCategory } = this.props;
     return (
-      <div>
+      <aside className="categoryAside">
+        <h2 className="titleCat">Categorias: </h2>
         {
           categories.map((element) => (
 
@@ -33,7 +34,7 @@ export default class Categories extends Component {
             />
           ))
         }
-      </div>
+      </aside>
     );
   }
 }

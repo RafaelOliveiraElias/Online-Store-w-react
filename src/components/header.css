@@ -3,7 +3,9 @@ header {
   display: flex;
   height: 90px;
   justify-content: space-between;
+  position: fixed;
   width: 100%;
+  z-index: 1;
 }
 
 .searchHeader {

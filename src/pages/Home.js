@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import Categories from '../components/Categories';
 import Products from '../components/Products';
+import './home.css';
 
 export default class Home extends Component {
   render() {
@@ -10,7 +11,7 @@ export default class Home extends Component {
       loading,
       categorySelect, addProduct } = this.props;
     return (
-      <>
+      <div className="homeClass">
         <Categories
           categorySelect={ categorySelect }
           searchCategory={ searchCategory }
@@ -20,7 +21,7 @@ export default class Home extends Component {
           productsInfos={ productsInfos }
           addProduct={ addProduct }
         /> }
-      </>
+      </div>
     );
   }
 }

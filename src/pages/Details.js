@@ -85,7 +85,7 @@ export default class Details extends React.Component {
                 data-testid="product-detail-add-to-cart"
                 onClick={ () => { addProduct(data); } }
               >
-                Adicione ao Carrinho
+                Adicione ao Carrinho.
               </button>
             )
         }

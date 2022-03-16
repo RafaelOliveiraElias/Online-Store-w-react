@@ -9,7 +9,9 @@ export default class Home extends Component {
       searchCategory,
       productsInfos,
       loading,
-      handleChange, handleClick, categorySelect, addProduct } = this.props;
+      handleChange,
+      handleOrderOfProducts,
+      handleClick, categorySelect, addProduct, orderOfProducts} = this.props;
     return (
       <>
         <p data-testid="home-initial-message">
@@ -32,7 +34,7 @@ export default class Home extends Component {
               name="orderOfProducts"
               value={ orderOfProducts }
               id="orderOfProducts"
-              onChange={ this.handleOrderOfProducts }
+              onChange={ handleOrderOfProducts }
             >
               <option value="relevance">Mais Relevante</option>
               <option value="price_desc">Preço: Maior para Menor</option>

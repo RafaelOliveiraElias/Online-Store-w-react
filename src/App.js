@@ -18,6 +18,7 @@ class App extends React.Component {
       searchCategory: '',
       searched: false,
       loading: false,
+      orderOfProducts: 'relevance',
     };
   }
 
@@ -157,8 +158,10 @@ class App extends React.Component {
 
   handleClick = async () => {
     const { searchQuery } = this.state;
-    const data = await api.getProductsFromQuery(searchQuery);
-    this.setState({ productsInfos: data.results, searched: true });
+    let { orderOfProducts } = this.state;
+    orderOfProducts = `&sort=${orderOfProducts}`;
+    const data = await api.getProductsFromQuery(searchQuery + orderOfProducts);
+    this.setState({ productsInfos: data.results, loading: false });
   }
 
   categorySelect = async ({ target }) => {
@@ -167,17 +170,26 @@ class App extends React.Component {
       searchCategory: valueTarget,
       loading: true,
     });
+    let { orderOfProducts } = this.state;
+    orderOfProducts = `&sort=${orderOfProducts}`;
 
     const { searchQuery } = this.state;
-    const search = await api.getProductsFromCategoryAndQuery(valueTarget, searchQuery);
+    const search = await api
+      .getProductsFromCategoryAndQuery(valueTarget, searchQuery + orderOfProducts);
 
-    this.setState({ productsInfos: search.results });
+    this.setState({ productsInfos: search.results, loading: false });
   };
+
+  handleOrderOfProducts = ({ target }) => {
+    const { value } = target;
+    this.setState({ orderOfProducts: value });
+  }
 
   render() {
     const { cartItems,
       cartTotalPrice,
-      productsInfos, searchCategory, searchQuery, searched, loading } = this.state;
+      productsInfos,
+      searchCategory, searchQuery, searched, loading, orderOfProducts } = this.state;
     return (
       <div>
         <BrowserRouter>
@@ -207,6 +219,8 @@ class App extends React.Component {
                   handleClick={ this.handleClick }
                   categorySelect={ this.categorySelect }
                   loading={ loading }
+                  handleOrderOfProducts={ this.handleOrderOfProducts }
+                  orderOfProducts={ orderOfProducts }
                 />) }
             />
             <Route exact path="/cart">

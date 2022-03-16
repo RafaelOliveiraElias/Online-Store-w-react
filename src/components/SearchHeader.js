@@ -7,15 +7,14 @@ export default class SearchHeader extends React.Component {
     const { handleChange,
       handleClick, searchQuery } = this.props;
     return (
-      <div>
-        <label htmlFor="query-input2">
-          <input
-            onChange={ handleChange }
-            type="text"
-            id="query-input2"
-            value={ searchQuery }
-          />
-        </label>
+      <div className="searchHeader">
+        <input
+          onChange={ handleChange }
+          type="text"
+          id="query-input2"
+          className="searchQueryInput"
+          value={ searchQuery }
+        />
         <Link to="/">
           <button
             type="button"

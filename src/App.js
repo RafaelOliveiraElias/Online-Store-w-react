@@ -1,6 +1,5 @@
-/* eslint-disable max-lines */
 import React from 'react';
-import { Switch, BrowserRouter, Route, withRouter } from 'react-router-dom';
+import { Switch, BrowserRouter, Route } from 'react-router-dom';
 import './App.css';
 import Header from './components/Header';
 import Cart from './pages/Cart';
@@ -8,6 +7,7 @@ import Checkout from './pages/Checkout';
 import Details from './pages/Details';
 import Home from './pages/Home';
 import * as api from './services/api';
+import * as appfuncs from './services/appfuncs';
 
 class App extends React.Component {
   constructor(props) {
@@ -24,28 +24,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({ cartItems: this.getCartInLocalStorage() });
-  }
-
-  getCartInLocalStorage = () => {
-    const cartItems = JSON.parse(localStorage.getItem('cartItems'));
-    if (cartItems) return cartItems;
-    return { items: [], cartTotalPrice: 0, cartTotalItems: 0 };
-  }
-
-  saveCartInLocalStorage = () => {
-    const { cartItems } = this.state;
-    localStorage.setItem('cartItems', JSON.stringify(cartItems));
-  }
-
-  sum = (numA, numB, digits) => {
-    const total = (numA + numB).toFixed(digits);
-    return Number(total);
-  }
-
-  subtract = (numA, numB, digits) => {
-    const difference = (numA - numB).toFixed(digits);
-    return Number(difference);
+    this.setState({ cartItems: appfuncs.getCartInLocalStorage() });
   }
 
   addProduct = (product) => {
@@ -63,10 +42,10 @@ class App extends React.Component {
     this.setState({
       cartItems: {
         items: [...items, { product, total: 1, productTotalPrice: price }],
-        cartTotalPrice: this.sum(cartTotalPrice, price, 2),
+        cartTotalPrice: appfuncs.sum(cartTotalPrice, price, 2),
         cartTotalItems: cartTotalItems + 1,
       },
-    }, this.saveCartInLocalStorage);
+    }, appfuncs.saveCartInLocalStorage);
   }
 
   removeProduct = (product) => {
@@ -84,10 +63,10 @@ class App extends React.Component {
     this.setState({
       cartItems: {
         items,
-        cartTotalPrice: this.subtract(cartTotalPrice, productTotalPrice, 2),
+        cartTotalPrice: appfuncs.subtract(cartTotalPrice, productTotalPrice, 2),
         cartTotalItems: cartTotalItems - total,
       },
-    }, this.saveCartInLocalStorage);
+    }, appfuncs.saveCartInLocalStorage);
   }
 
   getProductInTheCart = (id) => {
@@ -106,16 +85,16 @@ class App extends React.Component {
     if (item.total >= product.available_quantity) return;
     const { price } = product;
     item.total += 1;
-    item.productTotalPrice = this.sum(item.productTotalPrice, price, 2);
+    item.productTotalPrice = appfuncs.sum(item.productTotalPrice, price, 2);
     cartTotalItems += 1;
-    cartTotalPrice = this.sum(cartTotalPrice, price, 2);
+    cartTotalPrice = appfuncs.sum(cartTotalPrice, price, 2);
     this.setState({
       cartItems: {
         items,
         cartTotalPrice,
         cartTotalItems,
       },
-    }, this.saveCartInLocalStorage);
+    }, appfuncs.saveCartInLocalStorage);
   }
 
   decreaseProductQuantity = (product) => {
@@ -129,16 +108,16 @@ class App extends React.Component {
     if ((item.total - 1) === 0) return;
     const { price } = product;
     item.total -= 1;
-    item.productTotalPrice = this.subtract(item.productTotalPrice, price, 2);
+    item.productTotalPrice = appfuncs.subtract(item.productTotalPrice, price, 2);
     cartTotalItems -= 1;
-    cartTotalPrice = this.subtract(cartTotalPrice, price, 2);
+    cartTotalPrice = appfuncs.subtract(cartTotalPrice, price, 2);
     this.setState({
       cartItems: {
         items,
         cartTotalPrice,
         cartTotalItems,
       },
-    }, this.saveCartInLocalStorage);
+    }, appfuncs.saveCartInLocalStorage);
   }
 
   clearCart = () => {
@@ -148,7 +127,7 @@ class App extends React.Component {
         cartTotalPrice: 0,
         cartTotalItems: 0,
       },
-    }, this.saveCartInLocalStorage);
+    }, appfuncs.saveCartInLocalStorage);
   }
 
   handleChange = ({ target }) => {
@@ -181,15 +160,19 @@ class App extends React.Component {
     this.setState({ productsInfos: search.results, loading: false });
   };
 
-  handleOrderOfProducts = ({ target }) => {
+  handleOrderOfProducts = async ({ target }) => {
     const { value } = target;
     this.setState({ orderOfProducts: value });
+    const { searchQuery, searchCategory } = this.state;
+    const orderOfProducts = `&sort=${value}`;
+    const search = await api
+      .getProductsFromCategoryAndQuery(searchCategory, searchQuery + orderOfProducts);
+
+    this.setState({ productsInfos: search.results, loading: false });
   }
 
   render() {
-    const { cartItems,
-      cartTotalPrice,
-      productsInfos,
+    const { cartItems, cartTotalPrice, productsInfos,
       searchCategory, searchQuery, searched, loading, orderOfProducts } = this.state;
     return (
       <div>
@@ -211,6 +194,7 @@ class App extends React.Component {
               render={ (props) => (
                 <Home
                   { ...props }
+                  searched={ searched }
                   addProduct={ this.addProduct }
                   cartItems={ cartItems }
                   searchQuery={ searchQuery }
@@ -222,6 +206,7 @@ class App extends React.Component {
                   loading={ loading }
                   handleOrderOfProducts={ this.handleOrderOfProducts }
                   orderOfProducts={ orderOfProducts }
+                  getProductInTheCart={ this.getProductInTheCart }
                 />) }
             />
             <Route exact path="/cart">
@@ -238,6 +223,9 @@ class App extends React.Component {
               path="/product/:id"
               render={ (props) => (<Details
                 { ...props }
+                getProductInTheCart={ this.getProductInTheCart }
+                increaseProductQuantity={ this.increaseProductQuantity }
+                decreaseProductQuantity={ this.decreaseProductQuantity }
                 addProduct={ this.addProduct }
                 cartItems={ cartItems }
               />) }
@@ -258,4 +246,4 @@ class App extends React.Component {
   }
 }
 
-export default withRouter(App);
+export default App;

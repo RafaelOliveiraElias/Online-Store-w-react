@@ -75,6 +75,6 @@ Home.propTypes = {
   loading: PropTypes.bool.isRequired,
   handleOrderOfProducts: PropTypes.func.isRequired,
   orderOfProducts: PropTypes.string.isRequired,
-  categorySelect: PropTypes.arrayOf(PropTypes.object).isRequired,
+  categorySelect: PropTypes.func.isRequired,
   searchCategory: PropTypes.string.isRequired,
 };

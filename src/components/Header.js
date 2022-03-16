@@ -37,7 +37,7 @@ Header.propTypes = {
   searchQuery: PropTypes.string.isRequired,
   productsInfos: PropTypes.arrayOf(PropTypes.object).isRequired,
   searched: PropTypes.bool.isRequired,
-  categorySelect: PropTypes.arrayOf(PropTypes.object).isRequired,
+  categorySelect: PropTypes.func.isRequired,
   searchCategory: PropTypes.string.isRequired,
 };
 

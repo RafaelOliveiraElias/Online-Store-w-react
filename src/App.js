@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import React from 'react';
 import { Switch, BrowserRouter, Route, withRouter } from 'react-router-dom';
 import './App.css';

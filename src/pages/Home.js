@@ -11,7 +11,7 @@ export default class Home extends Component {
       loading,
       handleChange,
       handleOrderOfProducts,
-      handleClick, categorySelect, addProduct, orderOfProducts} = this.props;
+      handleClick, categorySelect, addProduct, orderOfProducts } = this.props;
     return (
       <>
         <p data-testid="home-initial-message">
@@ -73,6 +73,8 @@ Home.propTypes = {
   productsInfos: PropTypes.arrayOf(PropTypes.object).isRequired,
   searched: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
+  handleOrderOfProducts: PropTypes.func.isRequired,
+  orderOfProducts: PropTypes.string.isRequired,
   categorySelect: PropTypes.arrayOf(PropTypes.object).isRequired,
   searchCategory: PropTypes.string.isRequired,
 };

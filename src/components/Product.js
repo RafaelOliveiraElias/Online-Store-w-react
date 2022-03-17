@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
+import { BiCartAlt } from 'react-icons/bi';
+import { MdOutlineLocalShipping } from 'react-icons/md';
 import './product.css';
 
 export default class Product extends Component {
@@ -17,9 +19,22 @@ export default class Product extends Component {
     });
   }
 
+  priceGenerator = () => {
+    const { productInfo: { price } } = this.props;
+    const valor = price.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+    const arr = valor.split(',');
+    return (
+      <div className="allValue">
+        <span className="inter">
+          {arr[0]}
+        </span>
+        <span className="cents">{ arr[1] }</span>
+      </div>);
+  }
+
   render() {
     const { productInfo, addProduct } = this.props;
-    const { title, thumbnail, price, id, shipping } = productInfo;
+    const { title, thumbnail, id, shipping } = productInfo;
     const { clicked } = this.state;
     if (clicked) {
       return <Redirect to={ `/product/${id}` } />;
@@ -40,18 +55,25 @@ export default class Product extends Component {
           </div>
           <div className="infos">
             <h4>{title}</h4>
-            <p>{price.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</p>
+            <p>{this.priceGenerator()}</p>
             { Object.values(shipping)[0]
-              ? <h4 data-testid="free-shipping">Frete grátis</h4> : null }
+              ? (
+                <div className="shipping">
+                  <h5 data-testid="free-shipping">Frete grátis</h5>
+                  <MdOutlineLocalShipping size="25px" />
+                </div>) : null }
           </div>
-          <button
-            type="button"
-            data-testid="product-add-to-cart"
-            onClick={ () => { addProduct(productInfo); } }
-          >
-            Adicione ao Carrinho
-          </button>
         </div>
+        <button
+          type="button"
+          className="myButton"
+          data-testid="product-add-to-cart"
+          onClick={ () => { addProduct(productInfo); } }
+        >
+          Adicione ao Carrinho
+          <br />
+          <BiCartAlt size="25px" border="circle" className="cartIcon" />
+        </button>
       </div>
     );
   }

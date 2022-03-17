@@ -1,14 +1,49 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap') ;
 
 .teste {
   display: flex;
 }
 
+.allProducts {
+  border: #306108 1px solid;
+  margin-left: 80px;
+}
+
+.loading {
+  align-items: center;
+  background-color: white;
+  border: #306108 1px solid;
+  display: flex;
+  flex-direction: column;
+  height: 1400px;
+  margin-left: 80px;
+  padding: 30px;
+  width: 835px;
+}
+
+.loading * {
+  padding: 15px;
+}
+
+.ldImgContainer {
+  height: 200px;
+  width: 200px;
+}
+
+.ldImgContainer img {
+  height: 100%;
+  width: 100%;
+}
+
 .productClass {
+  align-items: center;
+  background-color: white;
+  border-top: 1px solid #d8ebcb;
   display: flex;
   flex-direction: row;
   height: 176px;
-  padding: 0 20px 50px;
+  justify-content: center;
+  padding: 10px 20px 50px;
   width: 835px;
 }
 
@@ -18,20 +53,95 @@
 }
 
 .linkDiv h4 {
-  font-family: 'Montserrat' , sans-serif;
+  cursor: pointer;
+  font-family: Montserrat , sans-serif;
   font-size: 20px;
   font-weight: 300;
   line-height: 1.3;
+  margin-left: 0;
+  padding: 10px;
 }
 
 .imgsContainer {
+  align-items: center;
   border-radius: 4px;
+  display: flex;
   float: left;
-  height: 160px;
-  width: 160px;
+  height: 150px;
+  justify-content: center;
+  justify-self: center;
+  margin: 7px;
+  width: 150px;
 }
 
 .imgsContainer img {
-  height: 100%;
-  width: 100%;
+  height: 90%;
+  max-width: 100%;
+  width: auto;
+}
+
+.inter, .cents {
+  font-family: Montserrat , sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1.25;
+}
+
+.cents {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.8em;
+  margin-left: 0.05em;
+}
+
+.allValue {
+  display: flex;
+}
+
+h5 {
+  font-family: Montserrat , sans-serif;
+}
+
+.shipping {
+  align-items: center;
+  border-radius: 9px;
+  box-shadow: inset 0 0 0 1px black;
+  display: flex;
+  height: 30px;
+  justify-content: space-around;
+  margin-left: 180px;
+  margin-top: 5px;
+  padding: 5px;
+  width: 130px;
+}
+
+.myButton {
+  background: linear-gradient(to bottom, #ccffa2 5%, #76b442 100%);
+  background-color: #f8f8f8;
+  border-radius: 9px;
+  box-shadow: inset 0 5px 10px 0 #caefab;
+  color: #306108;
+  cursor: pointer;
+  display: inline-block;
+  font-family: Montserrat , sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  height: 60px;
+  margin-right: 10px;
+  margin-top: 30px;
+  text-decoration: none;
+  text-shadow: 1px 1px 0 #aade7c;
+  width: 100px;
+}
+
+.myButton:hover {
+  background: linear-gradient(to bottom, #5cb811 5%, #77d42a 100%);
+  background-color: #5cb811;
+}
+
+.myButton:active {
+  background: linear-gradient(to bottom, black 5%, #77d42a 100%);
+  background-color: black;
+  position: relative;
+  top: 1px;
 }

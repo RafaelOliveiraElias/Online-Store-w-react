@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import Categories from '../components/Categories';
+import LoaderSpinner from '../components/LoaderSpinner';
 import Products from '../components/Products';
 import './home.css';
 
@@ -16,11 +17,17 @@ export default class Home extends Component {
           categorySelect={ categorySelect }
           searchCategory={ searchCategory }
         />
-        {loading ? (<p>Carregando...</p>) : <Products
-          { ...this.props }
-          productsInfos={ productsInfos }
-          addProduct={ addProduct }
-        /> }
+        {loading ? (
+          <div className="loading">
+            <p>Carregando...</p>
+            <LoaderSpinner />
+          </div>)
+          : (
+            <Products
+              { ...this.props }
+              productsInfos={ productsInfos }
+              addProduct={ addProduct }
+            />) }
       </div>
     );
   }

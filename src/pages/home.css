@@ -1,7 +1,9 @@
 .homeClass {
   display: flex;
+  justify-content: center;
   position: absolute;
-  top: 90px;
+  top: 87px;
+  width: 100%;
 }
 
 /* categoria aside: */
@@ -9,10 +11,11 @@
   background-color: #d1e2c4;
   border: 1px solid;
   border-image-slice: 1;
-  border-image-source: linear-gradient(to left, #31352e, #778a35);
+  border-image-source: linear-gradient(to right, #31352e, #778a35);
   border-radius: 10px 10px 25px 25px;
   border-width: 2px;
   color: #31352e;
+  height: 1400px;
   padding: 15px;
   width: 300px;
 }

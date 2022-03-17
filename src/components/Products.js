@@ -6,7 +6,7 @@ export default class Products extends Component {
   render() {
     const { productsInfos, addProduct } = this.props;
     return (
-      <div>
+      <div className="allProducts">
         {
           !productsInfos.length > 0
             ? <p>Nenhum produto foi encontrado</p>

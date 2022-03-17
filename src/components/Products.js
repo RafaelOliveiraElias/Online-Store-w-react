@@ -9,7 +9,7 @@ export default class Products extends Component {
       <div className="allProducts">
         {
           !productsInfos.length > 0
-            ? <p>Nenhum produto foi encontrado</p>
+            ? <p className="loading">Nenhum produto foi encontrado</p>
             : productsInfos.map((element) => (
               <Product
                 productInfo={ element }

@@ -11,11 +11,11 @@ header {
 .searchHeader {
   align-items: center;
   align-self: center;
-  border: white solid 1px;
+  box-shadow: 0 0 10px 3px #006100;
   display: flex;
   height: 35px;
   justify-content: center;
-  width: 450px;
+  width: 650px;
 }
 
 .searchQueryInput {
@@ -29,13 +29,39 @@ header {
   box-sizing: border-box;
   display: inline-block;
   flex-grow: 1;
+  font-size: 0.9em;
   height: 100%;
   min-width: 30px;
   padding-left: 40px;
 }
 
+.orderOfProducts {
+  background-color: #d1e2c4;
+  border-left: 1px solid #76b442;
+  border-right: 1px solid #76b442;
+  font-size: 0.9em;
+  height: 100%;
+  padding-left: 10px;
+  width: 180px;
+}
+
 .searchQueryInput:focus {
-  border: 3px solid #778a35;
+  border: 3px solid #76b442;
   border-radius: 4px 0 0 4px;
   outline: none;
+}
+
+.bttnSearch {
+  background-image: linear-gradient(to top, #007a00, #00973a);
+  border-radius: 0 9px 9px 0;
+  box-shadow: inset 0 0 3px 3px #00973a;
+  color: #00240e;
+  font-size: 0.9em;
+  height: 100%;
+  padding: 3px 5px;
+  text-shadow: 1px 1px 0 #07aa1d;
+}
+
+.bttnContainer {
+  height: 100%;
 }

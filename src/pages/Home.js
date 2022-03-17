@@ -18,7 +18,7 @@ export default class Home extends Component {
           searchCategory={ searchCategory }
         />
         {loading ? (
-          <div className="loading">
+          <div className="loading margin">
             <p>Carregando...</p>
             <LoaderSpinner />
           </div>)

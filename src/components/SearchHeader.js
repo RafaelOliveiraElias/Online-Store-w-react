@@ -8,7 +8,7 @@ export default class SearchHeader extends React.Component {
       handleClick, orderOfProducts,
       searchQuery, handleOrderOfProducts } = this.props;
     return (
-      <div className="searchHeader">
+      <form className="searchHeader" onSubmit={ (e) => e.preventDefault() }>
         <input
           onChange={ handleChange }
           type="text"
@@ -20,21 +20,23 @@ export default class SearchHeader extends React.Component {
           name="orderOfProducts"
           value={ orderOfProducts }
           id="orderOfProducts"
+          className="orderOfProducts"
           onChange={ handleOrderOfProducts }
         >
           <option value="relevance">Mais Relevante</option>
           <option value="price_desc">Preço: Maior para Menor</option>
           <option value="price_asc">Preço: Menor para Maior</option>
         </select>
-        <Link to="/">
+        <Link className="bttnContainer" to="/">
           <button
             type="button"
             onClick={ handleClick }
+            className="bttnSearch"
           >
             Pesquisar
           </button>
         </Link>
-      </div>
+      </form>
     );
   }
 }

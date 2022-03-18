@@ -3,13 +3,21 @@ import React, { Component } from 'react';
 import Product from './Product';
 
 export default class Products extends Component {
+  loadingOr = () => {
+    const { searched } = this.props;
+    if (!searched) {
+      return <p className="loading encontrado">Pesquisa não efetuada</p>;
+    }
+    return <p className="loading encontrado">Nenhum produto foi encontrado</p>;
+  }
+
   render() {
     const { productsInfos, addProduct } = this.props;
     return (
       <div className="allProducts">
         {
           !productsInfos.length > 0
-            ? <p className="loading">Nenhum produto foi encontrado</p>
+            ? this.loadingOr()
             : productsInfos.map((element) => (
               <Product
                 productInfo={ element }
@@ -27,4 +35,5 @@ export default class Products extends Component {
 Products.propTypes = {
   productsInfos: PropTypes.arrayOf(PropTypes.object).isRequired,
   addProduct: PropTypes.func.isRequired,
+  searched: PropTypes.bool.isRequired,
 };

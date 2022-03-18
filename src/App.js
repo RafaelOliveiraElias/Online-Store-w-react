@@ -2,7 +2,6 @@ import React from 'react';
 import { Switch, BrowserRouter, Route } from 'react-router-dom';
 import './App.css';
 import Header from './components/Header';
-import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
 import Details from './pages/Details';
 import Home from './pages/Home';
@@ -14,6 +13,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       cartItems: { items: [], cartTotalPrice: 0, cartTotalItems: 0 },
+      checkedCard: false,
       searchQuery: '',
       productsInfos: [],
       searchCategory: '',
@@ -25,6 +25,12 @@ class App extends React.Component {
 
   componentDidMount() {
     this.setState({ cartItems: appfuncs.getCartInLocalStorage() });
+  }
+
+  handleChecked = () => {
+    this.setState((prevs) => ({
+      checkedCard: !prevs.checkedCard,
+    }));
   }
 
   addProduct = (product) => {
@@ -172,7 +178,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { cartItems, cartTotalPrice, productsInfos,
+    const { cartItems, cartTotalPrice, productsInfos, checkedCard,
       searchCategory, searchQuery, searched, loading, orderOfProducts } = this.state;
     return (
       <div>
@@ -182,12 +188,14 @@ class App extends React.Component {
             cartItems={ cartItems }
             searchQuery={ searchQuery }
             searchCategory={ searchCategory }
+            checkedCard={ checkedCard }
             productsInfos={ productsInfos }
             handleChange={ this.handleChange }
             handleClick={ this.handleClick }
             categorySelect={ this.categorySelect }
             handleOrderOfProducts={ this.handleOrderOfProducts }
             orderOfProducts={ orderOfProducts }
+            handleChecked={ this.handleChecked }
           />
           <Switch>
             <Route
@@ -198,6 +206,7 @@ class App extends React.Component {
                   { ...props }
                   searched={ searched }
                   addProduct={ this.addProduct }
+                  checkedCard={ checkedCard }
                   cartItems={ cartItems }
                   searchCategory={ searchCategory }
                   productsInfos={ productsInfos }
@@ -207,17 +216,12 @@ class App extends React.Component {
                   handleOrderOfProducts={ this.handleOrderOfProducts }
                   orderOfProducts={ orderOfProducts }
                   getProductInTheCart={ this.getProductInTheCart }
+                  cartTotalPrice={ cartTotalPrice }
+                  removeProduct={ this.removeProduct }
+                  increaseProductQuantity={ this.increaseProductQuantity }
+                  decreaseProductQuantity={ this.decreaseProductQuantity }
                 />) }
             />
-            <Route exact path="/cart">
-              <Cart
-                cartItems={ cartItems }
-                removeProduct={ this.removeProduct }
-                increaseProductQuantity={ this.increaseProductQuantity }
-                decreaseProductQuantity={ this.decreaseProductQuantity }
-                clearCart={ this.clearCart }
-              />
-            </Route>
             <Route
               exact
               path="/product/:id"

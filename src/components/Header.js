@@ -12,6 +12,8 @@ class Header extends React.Component {
       orderOfProducts,
       searchQuery,
       handleOrderOfProducts,
+      handleChecked,
+      checkedCard,
       productsInfos, searched, categorySelect, searchCategory, cartItems } = this.props;
     return (
       <header>
@@ -28,7 +30,11 @@ class Header extends React.Component {
           handleOrderOfProducts={ handleOrderOfProducts }
           orderOfProducts={ orderOfProducts }
         />
-        <CartIcon cartItems={ cartItems } />
+        <CartIcon
+          cartItems={ cartItems }
+          handleChecked={ handleChecked }
+          checkedCard={ checkedCard }
+        />
       </header>
     );
   }
@@ -40,6 +46,7 @@ Header.propTypes = {
   handleClick: PropTypes.func.isRequired,
   productsInfos: PropTypes.arrayOf(PropTypes.object).isRequired,
   searched: PropTypes.bool.isRequired,
+  handleChecked: PropTypes.func.isRequired,
   handleOrderOfProducts: PropTypes.func.isRequired,
   orderOfProducts: PropTypes.string.isRequired,
   categorySelect: PropTypes.func.isRequired,

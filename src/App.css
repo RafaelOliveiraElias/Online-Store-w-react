@@ -6,4 +6,6 @@
 
 body {
   background-color: #ebebe8;
+  overflow-x: hidden;
+  width: 100%;
 }

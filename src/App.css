@@ -9,3 +9,9 @@ body {
   overflow-x: hidden;
   width: 100%;
 }
+
+a, a:hover, a:focus, a:active, a:visited, a:checked {
+  text-decoration: none; /* no underline */
+  text-decoration: inherit; /* no underline */
+  color: white;
+}

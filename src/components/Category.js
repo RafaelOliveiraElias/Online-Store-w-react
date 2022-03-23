@@ -11,11 +11,12 @@ export default class Category extends Component {
   }
 
   render() {
-    const { categoryId, categoryName, categorySelect } = this.props;
+    const { categoryId, categoryName, categorySelect, searchCategory } = this.props;
     return (
       <div>
         <label
-          className="rad-label"
+          className={ searchCategory === categoryId
+            ? 'rad-label labelSelect' : 'rad-label' }
           htmlFor={ categoryId }
           data-testid="category"
         >

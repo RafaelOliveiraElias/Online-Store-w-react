@@ -32,7 +32,7 @@ export default class Cart extends React.Component {
 
     if (items.length === 0) {
       return (
-        <main>
+        <main className="emptyCart">
           <p data-testid="shopping-cart-empty-message">Seu carrinho está vazio</p>
         </main>
       );
@@ -55,23 +55,31 @@ export default class Cart extends React.Component {
             })
           }
         </ul>
-        <button
-          type="button"
-          onClick={ () => {
-            clearCart();
-          } }
-        >
-          Esvaziar carrinho
-        </button>
-        <button
-          type="button"
-          data-testid="checkout-products"
-          onClick={ this.handleClickButton }
-        >
-          Finalizar a compra
-        </button>
-        <p>{`R$ ${cartTotalPrice}`}</p>
-        {clicked ? <Redirect to="/checkout" /> : null}
+        <div className="endingCart">
+          <div className="cartButton">
+            <button
+              type="button"
+              onClick={ () => {
+                clearCart();
+              } }
+            >
+              Esvaziar carrinho
+            </button>
+            <button
+              type="button"
+              data-testid="checkout-products"
+              onClick={ this.handleClickButton }
+            >
+              Finalizar a compra
+            </button>
+          </div>
+          <p>
+            {`Total: ${cartTotalPrice
+              .toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}`}
+
+          </p>
+          {clicked ? <Redirect to="/checkout" /> : null}
+        </div>
       </main>
     );
   }

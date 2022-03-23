@@ -6,7 +6,7 @@ export default class Products extends Component {
   loadingOr = () => {
     const { searched } = this.props;
     if (!searched) {
-      return <p className="loading encontrado">Pesquisa não efetuada</p>;
+      return <p className="loading encontrado">Busque por um produto ou categoria</p>;
     }
     return <p className="loading encontrado">Nenhum produto foi encontrado</p>;
   }

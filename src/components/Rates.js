@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import StarRatings from 'react-star-ratings';
+import './rate.css';
+
+// https://codepen.io/jamesbarnett/pen/najzYK referencia ratings stars
 
 export default class Rates extends Component {
   constructor() {
@@ -20,22 +23,23 @@ export default class Rates extends Component {
 
   handleButton = (e) => {
     e.preventDefault();
+    const { productId } = this.props;
     const { rating, email, comment } = this.state;
-    const allRatesStart = JSON.parse(localStorage.getItem('allRates'));
+    const allRatesStart = JSON.parse(localStorage.getItem(`product${productId}`));
     if (!allRatesStart) {
       const allRates = [{
         email: [email],
         comment: [comment],
         rating: [rating],
       }];
-      localStorage.setItem('allRates', JSON.stringify(allRates));
+      localStorage.setItem(`product${productId}`, JSON.stringify(allRates));
     } else {
       const allRates = [...allRatesStart, {
         email: [email],
         comment: [comment],
         rating: [rating],
       }];
-      localStorage.setItem('allRates', JSON.stringify(allRates));
+      localStorage.setItem(`product${productId}`, JSON.stringify(allRates));
     }
     this.setState({
       comment: '',
@@ -52,16 +56,21 @@ export default class Rates extends Component {
 
   render() {
     const { email, comment } = this.state;
+    const { productId } = this.props;
     const arrayRating = [];
-    const maxValue = 6;
-    for (let index = 1; index < maxValue; index += 1) {
+    const maxValue = 5;
+    for (let index = maxValue; index > 0; index -= 1) {
       arrayRating.push(index);
     }
     return (
-      <>
-        <form>
-          <label htmlFor="product-detail-email">
-            Email
+      <div className="divRate">
+        <h2>Avaliações:</h2>
+        <form className="newAva">
+          <h3>Faça sua avaliação:</h3>
+          <div className="iputes">
+            <label htmlFor="product-detail-email" className="mailds">
+              Email:
+            </label>
             <input
               type="email"
               id="product-detail-email"
@@ -70,10 +79,11 @@ export default class Rates extends Component {
               onChange={ this.handleChange }
               value={ email }
             />
-          </label>
-
-          <label htmlFor="product-detail-evaluation">
-            Comentario
+          </div>
+          <div className="iputes">
+            <label htmlFor="product-detail-evaluation">
+              Comentario:
+            </label>
             <textarea
               id="product-detail-evaluation"
               data-testid="product-detail-evaluation"
@@ -81,39 +91,50 @@ export default class Rates extends Component {
               onChange={ this.handleChange }
               value={ comment }
             />
-          </label>
-
-          {arrayRating.map((each) => (
-            <label htmlFor={ `${each}-index` } key={ each }>
-              <input
-                type="radio"
-                value={ each }
-                name="rating"
-                data-testid={ `${each}-rating` }
-                onChange={ this.handleChange }
-              />
-              {each}
-            </label>
-          ))}
-
+          </div>
+          <span>Avaliação: </span>
+          <fieldset className="rating">
+            {arrayRating.map((each) => (
+              <>
+                <input
+                  type="radio"
+                  value={ each }
+                  id={ `star${each}` }
+                  name="rating"
+                  data-testid={ `${each}-rating` }
+                  onChange={ this.handleChange }
+                />
+                <label htmlFor={ `star${each}` } key={ each } />
+              </>
+            ))}
+          </fieldset>
           <button
             type="submit"
             data-testid="submit-review-btn"
+            className="addAva"
             onClick={ this.handleButton }
           >
             Enviar Avaliação
           </button>
         </form>
         <div>
-          {JSON.parse(localStorage.getItem('allRates'))
-            ? JSON.parse(localStorage.getItem('allRates'))
+          {JSON.parse(localStorage.getItem(`product${productId}`))
+            ? JSON.parse(localStorage.getItem(`product${productId}`))
               .map((each, index) => (
-                <div key={ index }>
-                  <h4>{each.email}</h4>
-                  <p>{each.comment}</p>
-                  <div data-testid={ `${index}-rating` }>
+                <div className="ansawe" key={ index }>
+                  <div>
+                    <span>Email: </span>
+                    <span>{each.email}</span>
+                  </div>
+                  <div>
+                    <span>Avaliação: </span>
+                    <p>{each.comment}</p>
+                  </div>
+                  <div className="sizeRa" data-testid={ `${index}-rating` }>
                     <StarRatings
                       rating={ Number(each.rating) }
+                      starDimension="20px"
+                      starSpacing="4px"
                       starRatedColor="blue"
                       numberOfStars={ 5 }
                       name="rating"
@@ -122,7 +143,7 @@ export default class Rates extends Component {
                 </div>
               )) : null }
         </div>
-      </>
+      </div>
     );
   }
 }

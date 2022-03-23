@@ -88,7 +88,7 @@ class App extends React.Component {
       if (product.id === cartItem.product.id) return true;
       return false;
     });
-    if (item.total >= product.available_quantity) return;
+    // if (item.total >= product.available_quantity) return;
     const { price } = product;
     item.total += 1;
     item.productTotalPrice = appfuncs.sum(item.productTotalPrice, price, 2);
@@ -152,6 +152,7 @@ class App extends React.Component {
 
   categorySelect = async ({ target }) => {
     const valueTarget = target.value;
+    console.log(valueTarget);
     this.setState({
       searchCategory: valueTarget,
       loading: true,
@@ -209,6 +210,7 @@ class App extends React.Component {
                   checkedCard={ checkedCard }
                   cartItems={ cartItems }
                   searchCategory={ searchCategory }
+                  clearCart={ this.clearCart }
                   productsInfos={ productsInfos }
                   handleClick={ this.handleClick }
                   categorySelect={ this.categorySelect }
@@ -230,8 +232,12 @@ class App extends React.Component {
                 getProductInTheCart={ this.getProductInTheCart }
                 increaseProductQuantity={ this.increaseProductQuantity }
                 decreaseProductQuantity={ this.decreaseProductQuantity }
+                checkedCard={ checkedCard }
                 addProduct={ this.addProduct }
                 cartItems={ cartItems }
+                cartTotalPrice={ cartTotalPrice }
+                removeProduct={ this.removeProduct }
+                clearCart={ this.clearCart }
               />) }
             />
             <Route exact path="/checkout">

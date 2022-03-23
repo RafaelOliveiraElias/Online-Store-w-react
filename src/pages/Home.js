@@ -26,6 +26,7 @@ export default class Home extends Component {
       cartItems,
       decreaseProductQuantity,
       increaseProductQuantity,
+      clearCart,
       addProduct, searched } = this.props;
     return (
       <div className="homeClass">
@@ -54,6 +55,7 @@ export default class Home extends Component {
             removeProduct={ removeProduct }
             increaseProductQuantity={ increaseProductQuantity }
             decreaseProductQuantity={ decreaseProductQuantity }
+            clearCart={ clearCart }
           />
         </div>
         <div className={ checkedCard ? 'arredaDiv2 cover' : 'cover' } />

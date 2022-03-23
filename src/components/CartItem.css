@@ -1,0 +1,113 @@
+.cartItems {
+  background-color: #31352e;
+  color: white;
+  border-radius: 15px;
+  border: 1px solid rgb(149, 149, 149);
+  box-shadow: 0px 2px 3px #31352e;
+  margin-bottom: 10px;
+  list-style-type: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+.cartTitle {
+  padding: 10px;
+  font-size: 0.9em;
+  font-weight: 500;
+  flex-shrink: 5;
+  color: white;
+}
+
+.cartTitle a{
+  color: white;
+}
+
+.rmvBttn {
+  border: 0;
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  align-self: flex-end;
+  background-color: red;
+  border-radius: 50%;
+  transition: all 0.3s ease 0s;
+}
+
+.rmvBttn:hover {
+  background-color: red;
+  box-shadow: 0 0 3px 1px red;
+  color: white;
+}
+
+.imgContainter {
+  background-color: white;
+  border-radius: 20px;
+  border-style: outset;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 120px;
+  flex-shrink: 0;
+  width: 120px;
+}
+
+.imgContainter img {
+  max-height: 90%;
+  max-width: 90%;
+  width: auto;
+}
+
+.buttons {
+  display: flex;
+  flex-shrink: 0;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 120px;
+}
+
+.numbers {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end ;
+  max-width: 130px;
+}
+.controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 65px;
+  height: 25px;
+  margin-top: 5px;
+}
+.plusMinus {
+  border: white 1px solid;
+  background-color: #31352e;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 22px;
+  height: 22px;
+  cursor: pointer;
+  border-radius: 25%;
+  transition: all 0.3s ease 0s;;
+}
+
+.plusMinus:hover {
+  background-color: white;
+  box-shadow: 0 0 3px 1px white;
+  color: black;
+}
+
+.plusMinus:disabled {
+  border: rgb(92, 92, 92) 1px solid;
+  color: rgb(92, 92, 92);
+}

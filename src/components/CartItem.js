@@ -1,11 +1,15 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+
+import './CartItem.css';
 
 class CartItem extends Component {
   renderRemoveButton = (item) => {
     const { removeProduct } = this.props;
     return (
       <button
+        className="rmvBttn"
         type="button"
         onClick={ () => {
           removeProduct(item);
@@ -16,15 +20,17 @@ class CartItem extends Component {
     );
   };
 
-  renderDecreaseButton = (item) => {
+  renderDecreaseButton = (item, total) => {
     const { decreaseProductQuantity } = this.props;
     return (
       <button
         data-testid="product-decrease-quantity"
         type="button"
+        className="plusMinus"
         onClick={ () => {
           decreaseProductQuantity(item);
         } }
+        disabled={ total === 1 }
       >
         -
       </button>
@@ -37,6 +43,7 @@ class CartItem extends Component {
       <button
         data-testid="product-increase-quantity"
         type="button"
+        className="plusMinus"
         onClick={ () => {
           increaseProductQuantity(item);
         } }
@@ -52,20 +59,29 @@ class CartItem extends Component {
     const { product: item, total, productTotalPrice } = product;
     const { title, thumbnail } = item;
     return (
-      <li>
-        {this.renderRemoveButton(item)}
-        <img src={ thumbnail } alt={ title } />
-        <span data-testid="shopping-cart-product-name">
-          {title}
+      <li className="cartItems">
+        <div className="imgContainter">
+          <img src={ thumbnail } alt={ title } />
+        </div>
+        <span className="cartTitle" data-testid="shopping-cart-product-name">
+          <a href={`http://localhost:3000/product/${item.id}`}>{title}</a>
         </span>
-        {this.renderDecreaseButton(item)}
-        <span data-testid="shopping-cart-product-quantity">
-          {total}
-        </span>
-        {this.renderIncreaseButton(item, total)}
-        <span>
-          {`R$ ${productTotalPrice}`}
-        </span>
+        <div className="buttons">
+          {this.renderRemoveButton(item)}
+          <div className="numbers">
+            <span className="totalP">
+              {productTotalPrice
+                .toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
+            </span>
+            <div className="controls">
+              {this.renderDecreaseButton(item, total)}
+              <span data-testid="shopping-cart-product-quantity">
+                {total}
+              </span>
+              {this.renderIncreaseButton(item, total)}
+            </div>
+          </div>
+        </div>
       </li>
     );
   }

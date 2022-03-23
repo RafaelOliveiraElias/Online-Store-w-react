@@ -5,21 +5,20 @@
 }
 
 .allProducts {
-  margin-left: 80px;
+  margin-right: 150px;
 }
 
-.margin {
-  margin-left: 80px;
-}
 
 .loading {
   align-items: center;
   background-color: white;
   display: flex;
   flex-direction: column;
+  text-align: center;
   height: 1400px;
   padding: 30px;
   width: 835px;
+  margin-right: 150px;
 }
 
 .encontrado {
